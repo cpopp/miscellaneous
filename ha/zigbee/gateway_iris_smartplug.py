@@ -1,3 +1,37 @@
+""" Communicate with Iris Smart Plug from Digi ConnectPort Gateway (X4)
+
+This code serves as a sample showing how a Digi ConnectPort X4 can
+communicate with and control the Iris Smart Plug from Lowes.
+
+The Smart Plug required an additional initialization message beyond
+what would be standard with ZigBee so we have to watch for the
+device to join the network and then send the message on their profile.
+
+Once joined, the Smart Plug will send power usage information every few
+seconds and will send a cumulative energy usage report once a minute.  It
+will also send a message whenever the outlet is manually turned on and off
+with the button on its front.  This sample logs each of these message
+along with the relevant information.
+
+The Smart Plug supports message to turn it on and off.  In order to
+send one of these messages just pass True (for on) or False (for off) to the
+set_outlet method.
+
+Since this is for demonstration purposes this file is structured such
+that it can be pasted into a telnet session with an interactive python
+session started.  A thread will be spawned that will receive and log
+messages from the Smart Plug and the session will return control
+such that the user can call the set_outlet method to see the results.
+
+Check out the comments at the bottom if you'd like to tweak its
+operation so it is more appropriate for standalone execution.  For
+anything beyond simple use cases the code will probably need to be
+modified quite a bit -- for example, at minimum you will need to
+tweak the constant with the extended address and will have to make
+more extensive changes if you want to support multiple Smart Plugs.
+"""
+
+
 import xbee, struct, time, threading
 import binascii # just for debugging
 
